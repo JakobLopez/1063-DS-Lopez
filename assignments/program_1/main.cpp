@@ -1,4 +1,4 @@
-#/**
+/**
 * TXT Image Manipulation Starter
 *
 * This code is a simple way to read in color information stored in a space
