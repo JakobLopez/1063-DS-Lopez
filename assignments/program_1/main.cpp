@@ -1,4 +1,4 @@
-
+JAKOB LOPEZ
 /**
 * TXT Image Manipulation Starter
 *
