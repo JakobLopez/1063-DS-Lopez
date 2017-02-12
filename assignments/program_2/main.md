@@ -1,12 +1,12 @@
 ```
 /**
-* @ProgramName: Image_Manip_prog1
+* @ProgramName: Image_prog2
 * @Author: Jakob Lopez
 * @Description:
 *     This program reads in images stored as rgb values in a space delimited file format.
 * @Course: 1063 Data Structures
 * @Semester: Spring 2017
-* @Date: 04/02/2017
+* @Date: 02/12/2017
 */
 /**
 * TXT Image Manipulation Starter
@@ -99,7 +99,17 @@ public:
 		ifile_name = "Bot1.txt";
 		ofile_name = "Bot1.txt";
 	}
-
+/**
+* @FunctionName: flipVert
+* @Description:
+*     Loops through a 2D array and flips each row across height/2.
+* @Params:
+*    rgb** image - 2D array holding rgb values
+*    int width - width of image
+*    int height - height of image
+* @Returns:
+*    void
+*/	
 	void flipVert(string ifile_name, string ofile_name)
 	{
 		readFile(ifile_name);
@@ -120,7 +130,17 @@ public:
 		}
 		writeFile(ofile_name);
 	}
-
+/**
+* @FunctionName: flipHorz
+* @Description:
+*     Loops through a a 2D array and flips each column across width/2.
+* @Params:
+*    rgb** image - 2D array holding rgb values
+*    int width - width of image
+*    int height - height of image
+* @Returns:
+*    void
+*/	
 	void flipHorz(string ifile_name, string ofile_name)
 	{
 		readFile(ifile_name);
@@ -142,7 +162,17 @@ public:
 
 		writeFile(ofile_name);
 	}
-
+/**
+* @FunctionName: grayScale
+* @Description:
+*     Loops through a 2D array and turns every RGB value into its grayscale equivalent.
+* @Params:
+*    rgb** image - 2D array holding rgb values
+*    int width - width of image
+*    int height - height of image
+* @Returns:
+*    void
+*/
 	void grayScale(string ifile_name, string ofile_name)
 	{
 		readFile(ifile_name);
@@ -167,8 +197,8 @@ int main()
 
 	ImageManip j;
 	j.flipVert("Bot1.txt", "Bot2.txt");
-	//j.flipHorz("Bot1.txt", "Bot2.txt");
-	//j.grayScale("Bot1.txt", "Bot2.txt");
+	j.flipHorz("Bot1.txt", "Bot2.txt");
+	j.grayScale("Bot1.txt", "Bot2.txt");
 
 
 
