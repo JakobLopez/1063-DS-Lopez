@@ -1,3 +1,4 @@
+```
 /**
 * @ProgramName: Image_Manip_prog1
 * @Author: Jakob Lopez
@@ -173,3 +174,4 @@ int main()
 
 	return 0;
 }
+```
