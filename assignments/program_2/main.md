@@ -177,8 +177,10 @@ public:
 	{
 		readFile(ifile_name);
 
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
 				int gray = (imgArray[i][j].r + imgArray[i][j].g + imgArray[i][j].b) / 3;
 				imgArray[i][j].r = gray;
 				imgArray[i][j].g = gray;
