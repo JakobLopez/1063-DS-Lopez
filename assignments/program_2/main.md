@@ -50,7 +50,15 @@ private:
 	ofstream ofile;
 	string ifile_name;
 	string ofile_name;
-
+/**
+* @FunctionName: readFile
+* @Description:
+*     Allocates memory and reads in data from a file
+* @Params:
+*    string ifile_name - file name
+* @Returns:
+*    void
+*/
 	void readFile(string ifile_name)
 		{
 			infile.open(ifile_name);
@@ -76,7 +84,15 @@ private:
 			}
 			infile.close();
 	}
-
+/**
+* @FunctionName: writeFile
+* @Description:
+*     Writes data to an out file
+* @Params:
+*    string ofile_name - file name
+* @Returns:
+*    void
+*/
 	void writeFile(string ofile_name)
 	{
 		ofile.open(ofile_name);
