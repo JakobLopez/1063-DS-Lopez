@@ -11,8 +11,8 @@
 /**
 	* @FunctionName: Print
 	* @Description:
-	*     The if statement prints out the first number of the queue when full because
-	*	   the while loop will not print a list at all when Front == Rear
+	*     The if statement prints out the first number of the queue when full 
+	*     because the while loop will not print a list at all when Front == Rear
 	* @Params:
 	*    NONE
 	* @Returns:
