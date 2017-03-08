@@ -13,7 +13,7 @@ private:
 	int front;
 	int rear;
 	int count;
-	
+
 
 public:
 	convert(int length)
@@ -26,14 +26,14 @@ public:
 		count = 0;
 	}
 
-	void stackpush(char in)
+	void stack1(char in)
 	{
 		if (empty())
 		{
 			S[++top] = '(';
 
 			if (digit(in))
-				queuepush(in);
+				queue(in);
 			if (in == '(')
 				S[++top] = in;
 		}
@@ -43,7 +43,7 @@ public:
 			/*if (in == ' ')
 				return;*/
 			if (digit(in))
-				queuepush(in);
+				queue(in);
 
 			else if (in == '(')
 				S[++top] = in;
@@ -51,15 +51,15 @@ public:
 			else if (op(in))
 			{
 				while (determine_precedence(S[top], in) && !empty() && S[top] != '(')
-					queuepush(pop());
-				
+					queue(pop());
+
 				S[++top] = in;
 			}
 
 			else if (in == ')')
 			{
 				while (S[top] != '(')
-					queuepush(pop());
+					queue(pop());
 
 				pop();
 			}
@@ -68,11 +68,47 @@ public:
 			count++;
 	}
 
-	void queuepush(char post)
+	void stack2(int num)
 	{
-		Q[rear++] = post;
+		S[++top] = num;
 	}
-	
+
+	void queue(char post)
+	{
+		if (!fullQ())
+		{
+			Q[rear++] = post;
+		}
+
+		while (!emptyQ() && fullQ())
+		{
+			char f = Q[front];
+			if (digit(f))
+			{
+				int number = f - 48;
+				stack2(number);
+			}
+		}
+
+
+
+
+	}
+
+	bool fullQ()
+	{
+		if (Q[rear] == count)
+			return true;
+		else
+			return false;
+
+	}
+	bool emptyQ()
+	{
+		if (front == rear)
+			return true;
+		return false;
+	}
 
 	bool digit(char in)
 	{
@@ -157,7 +193,7 @@ public:
 			cout << S[i] << " ";
 		}
 		cout << endl;
-
+		cout << top << endl;
 		//displays queue
 		for (int x = 0; x < count; x++)
 		{
@@ -165,14 +201,9 @@ public:
 		}
 		cout << endl;
 
-
-
-
-
 	}
 
 };
-
 
 
 int main()
@@ -189,7 +220,7 @@ int main()
 	for (int j = 0; j < num; j++)
 	{
 		char h = equation[j];
-		i.stackpush(h);
+		i.stack1(h);
 	}
 	i.print();
 
