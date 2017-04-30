@@ -277,16 +277,12 @@ public:
 
 int main()
 {
-	GameOfLife G("data2.txt");
-	//G.GliderGun();
+	GameOfLife G("gen_one.txt");
+	
+	G.GliderGun();
 	G.Run(100);
+	G.Stable();
 
-	//G.Stable();
-	//cout << G.CountNeighbors(6, 21) << endl;
-
-
-
-	//cout << G.Stable() << endl;
 	system("pause");
 	return 0;
 }
