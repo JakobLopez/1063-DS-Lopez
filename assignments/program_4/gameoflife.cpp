@@ -6,7 +6,7 @@
 *     Life is determined by the amount of neighbors a cell has.    
 * @Course: 1063 Data Structures
 * @Semester: Spring 2017
-* @Date: Mar 2017
+* @Date: April 2017
 */
 #include <iostream>
 #include <string>
