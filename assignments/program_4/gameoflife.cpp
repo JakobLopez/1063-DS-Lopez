@@ -1,3 +1,13 @@
+/**
+* @ProgramName: Game of Life
+* @Author: Jakob Lopex
+* @Description:
+*     This program uses a 2d array to implement the game of life.
+*     Life is determined by the amount of neighbors a cell has.    
+* @Course: 1063 Data Structures
+* @Semester: Spring 2017
+* @Date: Mar 2017
+*/
 #include <iostream>
 #include <string>
 #include <fstream>
