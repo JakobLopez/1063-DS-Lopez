@@ -2,17 +2,13 @@
 #include <string>
 #include <fstream>
 
-// #ifdef __cplusplus__
-// #include <cstdlib>
-// #else
-// #include <stdlib.h>
-// #endif
 
 #include <windows.h>
 
 using namespace std;
 
-class GameOfLife{
+class GameOfLife
+{
 private:
 	int **Board;
 	int **Board2;
@@ -20,7 +16,8 @@ private:
 	int Rows;
 	int Cols;
 public:
-	GameOfLife(string filename){
+	GameOfLife(string filename)
+	{
 		string line;
 		char ch;
 		ifstream fin;
@@ -43,6 +40,15 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: InitBoardArray
+	* @Description:
+	*     Initializes columns for each row
+	* @Params:
+	*    int **&b - address to a 2d array
+	* @Returns:
+	*    void
+	*/
 	void InitBoardArray(int **&b)
 	{
 		b = new int*[Rows];
@@ -53,6 +59,15 @@ public:
 		ResetBoardArray(b);
 	}
 
+	/**
+	* @FunctionName: ResetBoardArray
+	* @Description:
+	*     Sets every coordinate to 0
+	* @Params:
+	*    int **&b - address to a 2d array
+	* @Returns:
+	*    void
+	*/
 	void ResetBoardArray(int **&b)
 	{
 		for (int i = 0; i < Rows; i++)
@@ -64,6 +79,15 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: PrintBoard
+	* @Description:
+	*     Prints the board with character 'X' as life
+	* @Params:
+	*    None
+	* @Returns:
+	*    void
+	*/
 	void PrintBoard()
 	{
 		for (int i = 0; i < Rows; i++)
@@ -79,6 +103,17 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: CountNeighbors
+	* @Description:
+	*     Counts the amount of life around a coordinate.
+	*     Causes the wrap around functionality, or never ending plane
+	* @Params:
+	*    int row - row number
+	*	 int col - column number
+	* @Returns:
+	*    int - Number of neighbors
+	*/
 	int CountNeighbors(int row, int col)
 	{
 		int neighbors = 0;
@@ -110,11 +145,30 @@ public:
 		return neighbors;
 	}
 
+	/**
+	* @FunctionName: OnBoard
+	* @Description:
+	*     determines if a coordinate is within boundaries
+	* @Params:
+	*    int row - row number
+	*	 int col - column number
+	* @Returns:
+	*    bool - true if on board / false otherwise
+	*/
 	bool OnBoard(int row, int col)
 	{
 		return (row >= 0 && row < Rows && col >= 0 && col < Cols);
 	}
 
+	/**
+	* @FunctionName: RandomPopulate
+	* @Description:
+	*     Randomly sets a cell on the game board
+	* @Params:
+	*    int num - amount of random cells to set
+	* @Returns:
+	*    void
+	*/
 	void RandomPopulate(int num)
 	{
 		int r = 0;
@@ -127,11 +181,31 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: SetCell
+	* @Description:
+	*     places a cell on the game board
+	* @Params:
+	*    int r - row
+	*    int c - column
+	*    int val - value that will be set for the coordinate
+	* @Returns:
+	*    void
+	*/
 	void SetCell(int r, int c, int val)
 	{
 		Board[r][c] = val;
 	}
 
+	/**
+	* @FunctionName: AddGens
+	* @Description:
+	*     Adds Board2 to Board, and then resets Board2
+	* @Params:
+	*    None
+	* @Returns:
+	*    void
+	*/
 	void AddGens()
 	{
 		for (int i = 0; i < Rows; i++)
@@ -144,6 +218,15 @@ public:
 		ResetBoardArray(Board2);
 	}
 
+	/**
+	* @FunctionName: clear_screen
+	* @Description:
+	*     Outputs blank lines
+	* @Params:
+	*    int lines - number of lines that will be blank
+	* @Returns:
+	*    void
+	*/
 	void clear_screen(int lines)
 	{
 		for (int i = 0; i < lines; i++)
@@ -152,6 +235,17 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: Run
+	* @Description:
+	*     Sets the rules for the Game of Life.
+	*     Corners die and when generations are consecutively the same it stops.
+	*     The board is printed and runs for a explicit amount of generations.
+	* @Params:
+	*    int generations - number of times game will loop
+	* @Returns:
+	*    void
+	*/
 	void Run(int generations = 99999)
 	{
 		int neighbors = 0;
@@ -199,6 +293,17 @@ public:
 
 		}
 	}
+
+	/**
+	* @FunctionName: Corner
+	* @Description:
+	*     Determines if a coordinate is in the corner of the 2d array
+	* @Params:
+	*     int r - row
+	*     int c - column
+	* @Returns:
+	*    bool - true if coordinate is in corner/ false otherwise
+	*/
 	bool Corner(int r, int c)
 	{
 		if (r == 0 && c == 0)
@@ -214,6 +319,16 @@ public:
 
 	}
 
+	/**
+	* @FunctionName: GliderGun
+	* @Description:
+	*     Copies a 2d array to the game board.
+	*	  The 2d array will create a never ending glider spawn
+	* @Params:
+	*    None
+	* @Returns:
+	*    void
+	*/
 	void GliderGun()
 	{
 		ResetBoardArray(Board);
@@ -242,6 +357,15 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: replicate
+	* @Description:
+	*     Copies a board to another 2d array
+	* @Params:
+	*    None
+	* @Returns:
+	*    void
+	*/
 	void replicate()
 	{
 		for (int i = 0; i < Rows; i++)
@@ -253,6 +377,15 @@ public:
 		}
 	}
 
+	/**
+	* @FunctionName: sameItems
+	* @Description:
+	*     Counts the amount of same values from 2 seperate boards
+	* @Params:
+	*     None
+	* @Returns:
+	*    int - Number of same values
+	*/
 	int sameItems()
 	{
 		int n = 0;
@@ -268,6 +401,16 @@ public:
 		return n;
 	}
 
+	/**
+	* @FunctionName: Stable
+	* @Description:
+	*     determines if the same number of items on 2 seperate boards
+	*	  is equivalent to the area
+	* @Params:
+	*     None
+	* @Returns:
+	*    bool - true if every item is the same / false otherwise
+	*/
 	bool Stable()
 	{
 		int area = Rows * Cols;
@@ -278,10 +421,12 @@ public:
 int main()
 {
 	GameOfLife G("gen_one.txt");
-	
-	G.GliderGun();
-	G.Run(100);
-	G.Stable();
+
+	//G.Run(100);
+
+	/* new functions*/
+	//G.GliderGun();	
+	//G.Stable();
 
 	system("pause");
 	return 0;
