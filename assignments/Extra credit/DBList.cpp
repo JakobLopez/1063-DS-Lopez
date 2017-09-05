@@ -1,76 +1,176 @@
+/**
+* @ProgramName: OrderSert (Extra Credit)
+* @Author: Jakob Lopez
+* @Description:
+*     This program performs various methods to insert or delete nodes 
+* @Course: 1063 Data Structures
+* @Semester: Spring 2017
+* @Date: 02/26/2017
+*/
+#include <iostream>
 
-//Jakob Lopez
-//String Stack
-#include<iostream>
-#include<string>
+
+#include "DBList.h"
+
 using namespace std;
 
-class Stack
-{
-  private:
-    string *S;
-    int Top;
-    int Size;
-  public:
-    Stack(int size)
-    {
-      Size = size;
-      Top = -1;
-      S = new string[Size];
-    }
-    
-    void Push(string x)
-    {
-      if(!Full())
-        S[++Top] = x;
-      else
-        cout<< "Stack over flow"<<endl;
-    }
-    
-    string Pop()
-    {
-      if(!Empty())
-        return S[Top--];
-      else
-        return "?";
-    }
-    
-    bool Full()
-    {
-      return Top == Size - 1;
-    }
-    
-    bool Empty()
-    {
-      return Top == - 1;
-    }
-    
-    void print()
-    {
-      for(int i = Top; i > -1 ; i--)
-      {
-        cout<<S[i]<<endl;
-      }
-    }  
-};
+//Public 
+////////////////////////////////////////////
 
-int main()
+DBList::DBList()
 {
-  Stack stack(5);
-  
-  //testing Stack methods
-  stack.Push("food");
-  stack.Push("dog");
-  stack.Push("mom");
-  stack.Push("bike");
-  stack.Push("money");
-  stack.print();
-  cout<<endl;
-  stack.Pop();
-  stack.print();
-  
-  
-  return 0;
+	Head = NULL;
+	Tail = NULL;
 }
 
 
+bool DBList::InsertFront(int Data)
+{
+	Node* Temp = _CreateNode(Data);
+	if (!Head)
+	{
+		Head = Temp;
+		Tail = Temp;
+	}
+	else
+	{
+		Temp->Next = Head;
+		Head->Prev = Temp;
+		Head = Temp;
+	}
+	return true;
+}
+
+bool DBList::InsertRear(int Data)
+{
+	if (!Head)
+	{
+		DBList::InsertFront(Data);
+	}
+	else
+	{
+		Node* Temp = _CreateNode(Data);
+		Tail->Next = Temp;
+		Temp->Prev = Tail;
+		Tail = Temp;
+	}
+	return true;
+}
+
+bool DBList::InsertInOrder(int x)
+{
+	if (!Head)	
+		DBList::InsertFront(x);
+	else
+	{		
+		Node* Temp = _CreateNode(x);
+		Node *C = Head;
+		if (x < Head->Data)
+		{
+			Temp->Next = Head;
+			Head->Prev = Temp;
+			Head = Temp;
+		}
+		
+
+		else
+		{
+			while (C->Next)
+			{
+				if (x < C->Data)
+				{
+					C->Prev->Next = Temp;
+					Temp->Prev = C->Prev;
+					Temp->Next = C;
+					C->Prev = Temp;
+				}
+
+				C = C->Next;
+				
+			}
+			C->Next = Temp;
+			Temp->Prev = C;
+		}	
+		
+	}
+		
+	return true;
+}
+
+bool DBList::Delete(int x)
+{
+	//One node 
+	if (Head == Tail && Head->Data == x){
+		delete Head;
+		Head = NULL;
+		Tail = NULL;
+		return true;
+		//Beginning of list
+	}
+	else if (Head->Data == x){
+		Head = Head->Next;
+		delete Head->Prev;
+		Head->Prev = NULL;
+		return true;
+		//End of list
+	}
+	else if (Tail->Data == x){
+		Tail = Tail->Prev;
+		delete Tail->Next;
+		Tail->Next = NULL;
+		return true;
+		//Middle of list
+	}
+	else
+	{
+		Node* Location = DBList::_Find(x);
+		if (Location){
+			Location->Prev->Next = Location->Next;
+			Location->Next->Prev = Location->Prev;
+			delete Location;
+			return true;
+		}
+	}
+	return false;
+}
+
+
+bool DBList::Update(int x, int y)
+{
+	return true;
+}
+
+void DBList::Print(){
+	Node *Temp = Head;
+	while (Temp){
+		cout << Temp->Data << " ";
+		Temp = Temp->Next;
+	}
+}
+
+//Private 
+////////////////////////////////////////////
+
+
+Node* DBList::_Find(int key)
+{
+	Node* Temp = Head;
+
+	while (Temp)
+	{
+		if (Temp->Data == key)
+		{
+			return Temp;
+		}
+		Temp = Temp->Next;
+	}
+	return NULL;
+}
+
+Node* DBList::_CreateNode(int data){
+	Node *Temp = new Node;
+	Temp->Data = data;
+	Temp->Prev = NULL;
+	Temp->Next = NULL;
+	return Temp;
+}
