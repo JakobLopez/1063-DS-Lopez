@@ -1,4 +1,4 @@
-'''
+
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -72,4 +72,3 @@ void OpenFiles(ifstream &infile, ofstream &outfile)
     string ofile = "output.txt";
     outfile.open(ofile);
 }
-'''
