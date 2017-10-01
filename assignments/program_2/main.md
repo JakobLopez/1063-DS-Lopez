@@ -1,153 +1,106 @@
 ```
-#include<iostream>
-#include<fstream>
-#include<math.h>
-#include "Asteroid.h"
-#include "AsteroidList.h"
 #include "Spaceship.h"
+#include<iostream>
+#include<math.h>
 using namespace std;
 
-void closeFiles(ifstream&, ofstream&);
-int getNumCollect();
-void initList(ifstream&,AsteroidList&);
-void openFiles(ifstream&, ofstream&);
-int placeShipX();
-int placeShipY();
-void readFile();
-
-
-int main()
+Ship::Ship()
 {
-	//Declare variables
+	x = 0;
+	y = 0;
+	toCollect = 0;
+	totalTravelled = 0;
+}
 
-	int collect;
-	int shipX, shipY;
-	int index;
+Ship::Ship(int X, int Y, int collect)
+{
+	x = X;
+	y = Y;
+	toCollect = collect;
+	totalTravelled = 0;
+}
 
-	//Open files
-	ifstream infile;
-	ofstream outfile;
-	openFiles(infile, outfile);
-
-	//User sets spaceship's coordinates
-	shipX = placeShipX();
-	shipY = placeShipY();
-
-	//Number of asteroids that the user wants collected
-	collect = getNumCollect();
-
-	//Initiates AsteroidList
-	AsteroidList astArray(collect);
-  
-  initList(infile,astArray);
-  
-	//"Turn on spaceship" and let it fulfill responsibilities
-	Ship spaceship(shipX, shipY,collect);
-	//Check if there are enough asteroids in the file for desired amount
+void Ship::collectAsteroid(Asteroid &target)
+{
+	int asteroidX = target.getX();
+	int asteroidY = target.getY();
+	cout << "asteroid is: " << asteroidX << "," << asteroidY << endl;
+	cout <<"spaceship is: "<< x << "," << y << endl;
+	movePosition(asteroidX, asteroidY);
+	cout << "Now spaceship is: "<< x << "," << y << endl;
 	
-for(int i =0;i<3;i++)
-{
-	Asteroid target = spaceship.searchField(astArray);
-
-
-	spaceship.collectAsteroid(target);
-	
-	//cout<<target.isCollected()<<endl;
-}
-
-	//cout<<spaceship.distanceToAsteroid(asteroidX, asteroidY)<<endl;
-	//Output number of asteroids collected
-
-	//Ouput order in which asteroids were collected
-
-	//Ouput order in asteroids' sizes
-
-	//Output total distance
-
-	//Output total size of asteroids
-
-
-	//Close files
-	closeFiles(infile, outfile);
-
-
-	return 0;
-}
-
-void closeFiles(ifstream &infile, ofstream &outfile)
-{
-	infile.close();
-	outfile.close();
-}
-
-int getNumCollect()
-{
-	int num;
-
-	//Prompt user
-	cout << "How many asteroids should the spaceship collect?" << endl;
-
-	//User inputs number of asteroids that need to be collected(keyboard)
-	cin >> num;
-
-	return num;
-}
-
-void initList(ifstream &ifile,AsteroidList &astArray)
-{
-  int asteroidX, asteroidY;
-	double weight;
-	int index = 0;
-	
-  //Read file for asteroids' location and size
-	ifile >> asteroidX >> asteroidY >> weight;
-	while (!ifile.eof())
-	{
-		Asteroid anAsteroid(asteroidX, asteroidY, weight);
-
-		astArray.add(index,anAsteroid);
-
-		ifile >> asteroidX >> asteroidY >> weight;
-		index++;
+		target.changeStatus();
+		if(target.isCollected())
+			cout << "its collected" << endl;;
 	}
-  
+
 }
 
-void openFiles(ifstream &infile, ofstream &outfile)
+double Ship::distanceToAsteroid(int x2, int y2)
 {
-	string ifile = "input.txt";
-	infile.open(ifile);
+	int differenceX = x2 - x;
+	int distanceX = pow(differenceX, 2);
 
-	string ofile = "output.txt";
-	outfile.open(ofile);
+	int differenceY = y2 - y;
+	int distanceY = pow(differenceY, 2);
+
+	double calcDistance = static_cast<double>(sqrt(distanceX + distanceY));
+
+
+	return calcDistance;
 }
 
-int placeShipX()
+int Ship::getX()
 {
-	int shipX;
-
-	//prompt user
-	cout << "Enter X coordinate : " << endl;
-
-	//User enters initial position of spaceship(keyboard)
-	cin >> shipX;
-
-	return shipX;
+	return x;
 }
 
-int placeShipY()
+int Ship::getY()
 {
-	int shipY;
-
-	//prompt user
-	cout << "Enter Y coordinate : " << endl;
-
-	//User enters initial position of spaceship(keyboard)
-	cin >> shipY;
-
-	return shipY;
+	return y;
 }
 
+void Ship::movePosition(int newX, int newY)
+{
+	totalTravelled += distanceToAsteroid(newX, newY);
 
+	x = newX;
+	y = newY;
+}
+
+Asteroid Ship::searchField(AsteroidList aList)
+{
+	Asteroid closest = aList.get(0);
+
+	for (int i = 0; i < toCollect; i++)
+	{
+	  while(closest.isCollected())
+	  {
+	    closest = aList.get(i);
+	  }
+		int closestX = closest.getX();
+		int closestY = closest.getY();
+
+		int asteroidX = aList.get(i).getX();
+		int asteroidY = aList.get(i).getY();
+    
+    if(!aList.get(i).isCollected())
+    {
+		if (distanceToAsteroid(asteroidX, asteroidY) < distanceToAsteroid(closestX,closestY))
+			closest = aList.get(i);	
+    }
+	}
+	return closest;
+}
+
+double Ship::totalDistance()
+{
+	return totalTravelled;
+}
+
+Ship::~Ship()
+{
+
+}
 
 ```
