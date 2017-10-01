@@ -1,4 +1,4 @@
-'''
+```
 /**
 * @ProgramName: Image_prog2
 * @Author: Jakob Lopez
@@ -223,3 +223,4 @@ int main()
 	return 0;
 }
 
+```
